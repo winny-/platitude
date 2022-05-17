@@ -1,0 +1,25 @@
+version: '2.0'
+
+services:
+  platitude:
+    restart: always
+    build:
+      context: .
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+    environment:
+      POSTGRES_PASSWORD: example
+      POSTGRES_USER: platitude
+      POSTGRES_HOST: db
+      POSTGRES_DB: platitude
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: example
+      POSTGRES_USER: platitude
+      POSTGRES_DB: platitude
+    ports:
+      - 5432:5432

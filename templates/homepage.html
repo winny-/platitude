@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <meta charset='utf-8' />
+    <title>@|site-title|</title>
+    <link rel="icon" href="static/favicon.svg" type="image/svg+xml">
+    <link rel='stylesheet' href='static/base.css' type='text/css' />
+  </head>
+
+  <body>
+    <main>
+      <header>
+        <div class='logotype'>@|site-title|</div>
+        <h1 class='slogan'>pastebin host</h1>
+      </header>
+      <a class='new primary' href='./form'>New Paste</a>
+
+      <section>
+        <h1>
+          Terminal Access
+        </h1>
+        <p>
+          <code class='block'>
+curl -F p=\&lt;- @address &lt; your-file.txt
+          </code>
+      </section>
+      <section>
+        <h1>Recent Pastes</h1>
+        <p>
+          @(if (null? rows)
+            "(No pastes in database!)"
+            @list*{
+              <ul class='pastes'>
+                @in[r rows]{
+                <li>
+                  <i>@(sql-timestamp->string (vector-ref r 1))</i>
+                  <a href='@(vector-ref r 0)'>@(vector-ref r 0)</a>
+                </li>
+              }
+            </ul>})
+      </section>
+      <footer class='credits'>
+        <p>
+          <a href='https://winny.tech/'>Created by <span>Winny</a>
+          </span>
+        </p>
+        <p>
+          <a href='https://vezquex.com/'>Web Design by <span>Vez</span></a>
+        </p>
+        <p>
+          <a href='https://github.com/winny-/rpaste'>
+            Source Code on <span>GitHub</span>
+          </a>
+        </p>
+      </footer>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <meta charset='utf-8' />
+    <!-- <title>@|site-title|</title> -->
+    <link rel="icon" href="static/favicon.svg" type="image/svg+xml">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel='stylesheet' href='static/iframe.css' type='text/css' />
+  </head>
+
+  <body class='bg-green-200 p-1'>
+    <h1 class='text-2xl pt-2'>Comments by <a target="_blank" class='text-blue-700 hover:underline' href="https://github.com/winny-/platitude">Platitude</a></h1>
+    @(if (empty? (*comments*))
+      @list{<article>
+        <p class='bg-red-100 font-bold mx-1'>(No comments yet.)</p>
+      </article>}
+      @list{<div class='columns-2 mx-1'>
+        @(for/list([comment (*comments*)])
+          @list{<article class='odd:bg-white even:bg-slate-100 break-inside-avoid-column my-1 first:mt-0 last:mb-0 overflow-y-auto'>
+            <p class='italic px-1 pt-1 bg-neutral-700 text-white'>
+              At @(sql-timestamp->string (db:comment-timestamp comment)) <strong>@(xexpr->string (db:comment-author comment))</strong> wrote:
+            </p>
+            <p class='px-1 pb-1'>@(xexpr->string (db:comment-commentary comment))</p>
+          </article>})
+      </div>})
+      <h2 class='text-lg pt-2'>Add your own comment</h2>
+    <form class='flex flex-col gap-2' method="post">
+      <input type="text" id="author" name="author" required placeholder="Your name">
+      <textarea placeholder="Blah blah blah" id="commentary" name="commentary"></textarea>
+
+      <div class='flex justify-center'>
+          <input type="submit" name="submit" value="Submit" class='ring-offset-2 focus:ring-2 bg-blue-400 text-black p-1'>
+      </div>
+    </form>
+    <h2 class='italic text-lg pt-2'>About this comments box</h2>
+    <p class='italic pt-1'>
+        This UI Element is specifically designed to be usable without Javascript.  But be embeddable on static websites.  As a result an iframe is employed to load a webpage from a dedicated comments service.
+    </p>
+    <p class='italic pt-1'>
+        See <a target="_blank" class='text-blue-700 hover:underline' href="https://github.com/winny-/platitude">the codebase</a> for
+        more information.
+    </p>
+  </body>
+</html>
